@@ -11,7 +11,8 @@ import (
 	"io"
 	"encoding/json"
 	"github.com/joho/godotenv"
-
+	"github.com/a-team-golang-web-api/hotel-compare/config"
+	
 	"golang.org/x/sync/errgroup"
 )
 // 楽天APIの構造体
@@ -167,7 +168,7 @@ func rakutenSearchHandler(w http.ResponseWriter, r *http.Request) {
 	checkoutDate := query.Get("checkoutDate")
 	adultNum := query.Get("adultNum")
 
-	baseURL := "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
+	baseURL := config.BaseURL
     queryParams := url.Values{}
     queryParams.Add("largeClassCode", largeClassCode)
     queryParams.Add("middleClassCode", middleClassCode)
