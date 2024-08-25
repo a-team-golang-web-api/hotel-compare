@@ -1,17 +1,6 @@
 import { Button } from "@/app/_components/elements/Button";
 import Image from "next/image";
-
-interface HotelInfoCardProps {
-	hotelName: string;
-	hotelInformationUrl: string;
-	hotelImageUrl: string;
-	roomName: string;
-	planName: string;
-	reserveUrl: string;
-	charge: number;
-	total: number;
-	chargeFlag: number;
-}
+import type { HotelInfo } from "../type";
 
 /**
  * ホテル情報を表示するカードコンポーネント
@@ -38,7 +27,7 @@ export const HotelInfoCard = ({
 	total,
 	reserveUrl,
 	chargeFlag,
-}: HotelInfoCardProps) => {
+}: HotelInfo) => {
 	const handleNavigate = () => {
 		window.open(reserveUrl, "_blank");
 	};
