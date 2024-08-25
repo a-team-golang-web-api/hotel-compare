@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/app/_components/elements/Button";
 import { destinationOption } from "@/app/_components/elements/Selectbox/destinationOption";
 import { useState } from "react";
@@ -21,7 +23,7 @@ export const SearchbarView = () => {
 	const [checkOutDate, setCheckOutDate] = useState("");
 
 	return (
-		<div className="container mx-auto p-4 space-y-4">
+		<div className="container mx-auto p-4 space-y-4 bg-white shadow-lg rounded-lg">
 			<div className="container flex items-end space-x-3">
 				{/* TODO: destinationOptionは仮置き。apiから取得する */}
 				<Selectbox labelText="目的地" options={destinationOption} />

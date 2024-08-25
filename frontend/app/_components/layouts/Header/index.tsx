@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 /**
@@ -5,10 +7,10 @@ import Image from "next/image";
  */
 const Header = () => {
 	return (
-		<div className="navbar bg-base-100">
+		<div className="navbar bg-base-100 ">
 			<div className="btn btn-ghost text-xl">
 				<Image
-					src="recursion-logo-square.png"
+					src="/recursion-logo-square.png"
 					width={32}
 					height={32}
 					alt={""}
