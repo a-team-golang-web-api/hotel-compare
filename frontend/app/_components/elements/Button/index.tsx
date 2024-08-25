@@ -11,6 +11,7 @@ interface ButtonProps {
 		| "btn-success"
 		| "btn-warning"
 		| "btn-error";
+	onClick?: () => void;
 }
 
 /**
@@ -21,10 +22,21 @@ interface ButtonProps {
  * @param {'text-xs' | 'text-sm' | 'text-base' | 'text-lg' | 'text-xl'} [props.fontSize] - ボタンのフォントサイズ（オプション）
  * @param {'btn-primary' | 'btn-secondary' | 'btn-accent' | 'btn-info' | 'btn-success' | 'btn-warning' | 'btn-error'} [props.btnColor] - ボタンの色クラス（オプション）
  * @param {'btn-sm' | 'btn-md' | 'btn-lg'} [props.btnSize] - ボタンのサイズクラス（オプション）
+ * @param {function} [props.onClick] - ボタンがクリックされたときのイベントハンドラ（オプション）
  */
-const Button = ({ text, fontSize, btnColor, btnSize }: ButtonProps) => {
+const Button = ({
+	text,
+	fontSize,
+	btnColor,
+	btnSize,
+	onClick,
+}: ButtonProps) => {
 	return (
-		<button type="button" className={`btn ${fontSize} ${btnSize} ${btnColor}`}>
+		<button
+			type="button"
+			className={`btn ${fontSize} ${btnSize} ${btnColor}`}
+			onClick={onClick}
+		>
 			{text}
 		</button>
 	);
