@@ -1,5 +1,4 @@
 import Select from "react-select";
-import { destinationOption } from "./destinationOption";
 
 const customStyles = {
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -14,6 +13,7 @@ const customStyles = {
 
 interface SelectboxProps {
 	labelText?: string;
+	options: Array<{ value: string; label: string }>;
 }
 
 /**
@@ -21,7 +21,7 @@ interface SelectboxProps {
  * @param {string} props.labelText - セレクトボックス上に表示するラベルテキスト
  * @returns
  */
-const Selectbox = ({ labelText }: SelectboxProps) => {
+const Selectbox = ({ labelText, options }: SelectboxProps) => {
 	return (
 		<div>
 			{labelText && (
@@ -30,9 +30,9 @@ const Selectbox = ({ labelText }: SelectboxProps) => {
 				</label>
 			)}
 			<Select
-				defaultValue={destinationOption[0]}
+				defaultValue={options[0]}
 				isClearable
-				options={destinationOption}
+				options={options}
 				styles={customStyles}
 			/>
 		</div>
