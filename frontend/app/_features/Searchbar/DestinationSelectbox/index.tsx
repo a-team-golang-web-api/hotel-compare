@@ -13,15 +13,17 @@ const customStyles = {
 };
 
 interface DestinationSelectboxProps {
-	labelText: string;
+	labelText?: string;
 }
 
 const DestinationSelectbox = ({ labelText }: DestinationSelectboxProps) => {
 	return (
 		<div>
-			<label className="block text-sm font-medium text-gray-700 mb-1">
-				{labelText}
-			</label>
+			{labelText && (
+				<label className="block text-sm font-medium text-gray-700 mb-1">
+					{labelText}
+				</label>
+			)}
 			<Select
 				defaultValue={destinationOption[0]}
 				isClearable
