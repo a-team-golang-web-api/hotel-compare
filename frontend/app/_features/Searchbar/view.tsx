@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/app/_components/elements/Button";
 import { destinationOption } from "@/app/_components/elements/Selectbox/destinationOption";
 import { useState } from "react";
