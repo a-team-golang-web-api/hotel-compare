@@ -12,14 +12,23 @@ const customStyles = {
 	}),
 };
 
-const DestinationSelectbox = () => {
+interface DestinationSelectboxProps {
+	labelText: string;
+}
+
+const DestinationSelectbox = ({ labelText }: DestinationSelectboxProps) => {
 	return (
-		<Select
-			defaultValue={destinationOption[0]}
-			isClearable
-			options={destinationOption}
-			styles={customStyles}
-		/>
+		<div>
+			<label className="block text-sm font-medium text-gray-700 mb-1">
+				{labelText}
+			</label>
+			<Select
+				defaultValue={destinationOption[0]}
+				isClearable
+				options={destinationOption}
+				styles={customStyles}
+			/>
+		</div>
 	);
 };
 
