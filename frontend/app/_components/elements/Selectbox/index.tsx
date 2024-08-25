@@ -12,11 +12,16 @@ const customStyles = {
 	}),
 };
 
-interface DestinationSelectboxProps {
+interface SelectboxProps {
 	labelText?: string;
 }
 
-const DestinationSelectbox = ({ labelText }: DestinationSelectboxProps) => {
+/**
+ * セレクトボックスコンポーネント
+ * @param {string} props.labelText - セレクトボックス上に表示するラベルテキスト
+ * @returns
+ */
+const Selectbox = ({ labelText }: SelectboxProps) => {
 	return (
 		<div>
 			{labelText && (
@@ -34,4 +39,4 @@ const DestinationSelectbox = ({ labelText }: DestinationSelectboxProps) => {
 	);
 };
 
-export default DestinationSelectbox;
+export default Selectbox;

@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import DestinationSelectbox from ".";
+import Selectbox from ".";
 
-const meta: Meta<typeof DestinationSelectbox> = {
-	title: "features/Searchbar/DestinationSelectbox",
-	component: DestinationSelectbox,
+const meta: Meta<typeof Selectbox> = {
+	title: "components/elements/Selectbox",
+	component: Selectbox,
 	argTypes: {
 		labelText: {
 			control: "text",
@@ -13,7 +13,7 @@ const meta: Meta<typeof DestinationSelectbox> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof DestinationSelectbox>;
+type Story = StoryObj<typeof Selectbox>;
 
 export const Default: Story = {
 	args: {
