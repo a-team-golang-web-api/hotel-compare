@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"os"
 	"io"
+	"io/ioutil"
 	"encoding/json"
 	"github.com/joho/godotenv"
 	"github.com/a-team-golang-web-api/hotel-compare/config"
@@ -94,6 +95,15 @@ type HotelAndRoomInfo struct {
 	ChargeFlag int `json:"chargeFlag"`
 }
 
+
+
+// 返すsmallClassCodeとsmallClassNameの情報をまとめた構造体
+type SmallClass struct {
+	MiddleClassCode string `json:"middleClassCode"`
+	SmallClassCode string `json:"smallClassCode"`
+	SmallClassName string  `json:"smallClassName"`
+}
+
 func main() {
 	if len(os.Args) != 2 {
 		log.Printf("need port number\n")
@@ -128,7 +138,7 @@ func run(ctx context.Context, l net.Listener) error {
         fmt.Fprintf(w, "Hello, %s!", r.URL.Path[1:])
     })
 	mux.HandleFunc("/api/rakuten", rakutenSearchHandler)
-
+	mux.HandleFunc("/api/small-class", smallClassSearchHandler)
 
 
 	eg, ctx := errgroup.WithContext(ctx)
@@ -281,3 +291,99 @@ func getCheapestRooms(rakutenResponse RakutenResponse) []HotelAndRoomInfo{
 	return cheapestRooms
 
 }
+
+// エリア情報のjsonファイル用構造体
+type AreaJson struct {
+	AreaClasses struct {
+		LargeClasses []struct {
+			LargeClass []struct {
+				LargeClassCode string `json:"largeClassCode,omitempty"`
+				LargeClassName string `json:"largeClassName,omitempty"`
+				MiddleClasses  []struct {
+					MiddleClass []struct {
+						MiddleClassCode string `json:"middleClassCode,omitempty"`
+						MiddleClassName string `json:"middleClassName,omitempty"`
+						SmallClasses    []struct {
+							SmallClass []struct {
+								SmallClassCode string `json:"smallClassCode,omitempty"`
+								SmallClassName string `json:"smallClassName,omitempty"`
+								DetailClasses  []struct {
+									DetailClass struct {
+										DetailClassCode string `json:"detailClassCode"`
+										DetailClassName string `json:"detailClassName"`
+									} `json:"detailClass"`
+								} `json:"detailClasses,omitempty"`
+							} `json:"smallClass"`
+						} `json:"smallClasses,omitempty"`
+					} `json:"middleClass"`
+				} `json:"middleClasses,omitempty"`
+			} `json:"largeClass"`
+		} `json:"largeClasses"`
+	} `json:"areaClasses"`
+}
+
+// middleClassName(都道府県名)を受け取り、smallClassCodeとsmallClassNameを返す関数
+func smallClassSearchHandler(w http.ResponseWriter, r *http.Request) {
+	// json ファイルから構造体作成
+	/* 
+	{
+		"classcode",
+		"className"
+	}
+	*/
+
+    // JSONファイルを読み込む
+    data, err := ioutil.ReadFile("area_info.json")
+    if err != nil {
+        log.Fatalf("Error reading file: %v", err)
+    }
+
+
+    var areaJson AreaJson
+	err = json.Unmarshal(data, &areaJson)
+    if err != nil {
+        log.Fatalf("Error unmarshalling JSON: %v", err)
+    }
+
+    // 構造体の内容を表示
+	// fmt.Printf("%+v\n", areaJson)
+	
+	query := r.URL.Query()
+	middleClassName := query.Get("middleClassName")
+	// middle class code で見つかるまで探索する
+	// 見つかったらsmall class codeとnameを入れる
+	var smallClasses []SmallClass
+	var smallClass SmallClass
+	for _, middleClassItem := range areaJson.AreaClasses.LargeClasses[0].LargeClass[1].MiddleClasses {
+		// class
+		if (middleClassItem.MiddleClass[0].MiddleClassName == middleClassName){
+			smallClass.MiddleClassCode = middleClassItem.MiddleClass[0].MiddleClassCode
+			// for でsmallClassを取得する
+			for _, smallClassItem := range middleClassItem.MiddleClass[1].SmallClasses {
+				smallClass.SmallClassCode = smallClassItem.SmallClass[0].SmallClassCode
+				smallClass.SmallClassName = smallClassItem.SmallClass[0].SmallClassName
+				// smallclasses配列に入れる
+				smallClasses = append(smallClasses, smallClass)
+			}
+
+			
+		}
+	}
+
+	// 構造体をJSON形式のバイトスライスに変換
+    jsonData, err := json.Marshal(smallClasses)
+    if err != nil {
+        http.Error(w, "Error marshaling JSON", http.StatusInternalServerError)
+        return
+    }
+
+	// レスポンスヘッダーを設定
+    w.Header().Set("Content-Type", "application/json")
+    
+    // JSONデータをHTTPレスポンスとして書き込む
+    w.WriteHeader(http.StatusOK)
+    w.Write(jsonData)
+}
+
+
+
