@@ -104,6 +104,12 @@ type SmallClass struct {
 	SmallClassName string  `json:"smallClassName"`
 }
 
+// 返すdetailClassCodeとdetailClassNameの情報をまとめた構造体
+type DetailClass struct {
+	DetailClassCode string `json:"detailClassCode"`
+	DetailClassName string  `json:"detailClassName"`
+}
+
 func main() {
 	if len(os.Args) != 2 {
 		log.Printf("need port number\n")
@@ -139,6 +145,7 @@ func run(ctx context.Context, l net.Listener) error {
     })
 	mux.HandleFunc("/api/rakuten", rakutenSearchHandler)
 	mux.HandleFunc("/api/small-class", smallClassSearchHandler)
+	mux.HandleFunc("/api/detail-class", detailClassSearchHandler)
 
 
 	eg, ctx := errgroup.WithContext(ctx)
@@ -385,5 +392,95 @@ func smallClassSearchHandler(w http.ResponseWriter, r *http.Request) {
     w.Write(jsonData)
 }
 
+// smallClassName(都道府県名)を受け取り、smallClassCodeとsmallClassNameを返す関数
+func detailClassSearchHandler(w http.ResponseWriter, r *http.Request) {
+	// json ファイルから構造体作成
+	/* 
+	{
+	  "detailClassCode": "A",
+ 	  "detailClassName": "名古屋駅・伏見・丸の内"
+	}
+	*/
+
+    // JSONファイルを読み込む
+    data, err := ioutil.ReadFile("area_info.json")
+    if err != nil {
+        log.Fatalf("Error reading file: %v", err)
+    }
+
+
+    var areaJson AreaJson
+	err = json.Unmarshal(data, &areaJson)
+    if err != nil {
+        log.Fatalf("Error unmarshalling JSON: %v", err)
+    }
+
+    // 構造体の内容を表示
+	// fmt.Printf("%+v\n", areaJson)
+	
+	query := r.URL.Query()
+	smallClassName := query.Get("smallClassName")
+	// middle class code で見つかるまで探索する
+	// 見つかったらsmall class codeとnameを入れる
+	var detailClasses []DetailClass
+	var detailClass DetailClass
+
+	// middle classの探索
+	for _, middleClassItem := range areaJson.AreaClasses.LargeClasses[0].LargeClass[1].MiddleClasses {
+		// class
+
+		// for でsmallClassを取得する
+		for _, smallClassItem := range middleClassItem.MiddleClass[1].SmallClasses {
+			// small class nameが一緒ならdetailClassを入れる
+			if (smallClassItem.SmallClass[0].SmallClassName == smallClassName){
+				// 1つならdetailclassなし。
+				
+				if (len(smallClassItem.SmallClass) <= 1){
+					jsonData, err := json.Marshal(detailClasses)
+					if err != nil {
+						http.Error(w, "Error marshaling JSON", http.StatusInternalServerError)
+						return
+					}
+				
+					// レスポンスヘッダーを設定
+					w.Header().Set("Content-Type", "application/json")
+					
+					// JSONデータをHTTPレスポンスとして書き込む
+					w.WriteHeader(http.StatusOK)
+					w.Write(jsonData)
+					return
+
+				} else {
+					for _, detailClassItem := range smallClassItem.SmallClass[1].DetailClasses{
+						detailClass.DetailClassCode = detailClassItem.DetailClass.DetailClassCode
+						detailClass.DetailClassName = detailClassItem.DetailClass.DetailClassName
+						// smallclasses配列Name
+						detailClasses = append(detailClasses, detailClass)
+					}
+
+				}
+
+
+			}
+
+
+
+		}
+	}
+
+	// 構造体をJSON形式のバイトスライスに変換
+    jsonData, err := json.Marshal(detailClasses)
+    if err != nil {
+        http.Error(w, "Error marshaling JSON", http.StatusInternalServerError)
+        return
+    }
+
+	// レスポンスヘッダーを設定
+    w.Header().Set("Content-Type", "application/json")
+    
+    // JSONデータをHTTPレスポンスとして書き込む
+    w.WriteHeader(http.StatusOK)
+    w.Write(jsonData)
+}
 
 
