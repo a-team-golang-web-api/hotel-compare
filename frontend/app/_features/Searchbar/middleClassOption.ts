@@ -1,4 +1,4 @@
-export const destinationOption = [
+export const middleClassOption = [
 	{
 		value: "北海道",
 		label: "北海道",

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/app/_components/elements/Button";
-import { destinationOption } from "@/app/_components/elements/Selectbox/destinationOption";
+import { middleClassOption } from "@/app/_features/Searchbar/middleClassOption";
 import { useState } from "react";
 import Selectbox from "../../_components/elements/Selectbox";
 import DateSelectbox from "./DateSelectbox";
@@ -26,9 +26,7 @@ export const SearchbarView = () => {
 		<div className="container mx-auto p-4 space-y-4 bg-white shadow-lg rounded-lg">
 			<div className="container flex items-end space-x-3">
 				{/* TODO: destinationOptionは仮置き。apiから取得する */}
-				<Selectbox labelText="目的地" options={destinationOption} />
-				<Selectbox options={destinationOption} />
-				<Selectbox options={destinationOption} />
+				<Selectbox labelText="目的地" options={middleClassOption} />
 			</div>
 			<div className="flex items-end space-x-3">
 				<DateSelectbox
