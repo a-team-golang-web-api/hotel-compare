@@ -15,11 +15,21 @@ const generatePeopleOptions = (maxPeople: number) => {
 
 type SearchbarViewProps = {
 	selectedMiddleClass: { value: string; label: string } | null;
+	selectedSmallClass: { value: string; label: string } | null;
+	selectedDetailClass: { value: string; label: string } | null;
 	onMiddleClassChange: (
+		newValue: { value: string; label: string } | null,
+	) => void;
+	onSmallClassChange: (
+		newValue: { value: string; label: string } | null,
+	) => void;
+	onDetailClassChange: (
 		newValue: { value: string; label: string } | null,
 	) => void;
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	smallClassOptions: any;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	detailClassOptions: any;
 };
 
 /**
@@ -29,8 +39,13 @@ type SearchbarViewProps = {
  */
 export const SearchbarView = ({
 	selectedMiddleClass,
+	selectedSmallClass,
+	selectedDetailClass,
 	onMiddleClassChange,
+	onSmallClassChange,
+	onDetailClassChange,
 	smallClassOptions,
+	detailClassOptions,
 }: SearchbarViewProps) => {
 	const [checkInDate, setCheckInDate] = useState("");
 	const [checkOutDate, setCheckOutDate] = useState("");
@@ -59,8 +74,15 @@ export const SearchbarView = ({
 				{smallClassOptions && (
 					<Selectbox
 						options={smallClassOptions}
-						value={smallClassOptions[0]}
-						onChange={onMiddleClassChange}
+						value={selectedSmallClass}
+						onChange={onSmallClassChange}
+					/>
+				)}
+				{detailClassOptions && (
+					<Selectbox
+						options={detailClassOptions}
+						value={selectedDetailClass}
+						onChange={onDetailClassChange}
 					/>
 				)}
 			</div>
