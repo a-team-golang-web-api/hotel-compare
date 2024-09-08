@@ -14,6 +14,10 @@ const customStyles = {
 interface SelectboxProps {
 	labelText?: string;
 	options: Array<{ value: string; label: string }>;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	value: any;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	onChange: any;
 }
 
 /**
@@ -21,7 +25,7 @@ interface SelectboxProps {
  * @param {string} props.labelText - セレクトボックス上に表示するラベルテキスト
  * @returns
  */
-const Selectbox = ({ labelText, options }: SelectboxProps) => {
+const Selectbox = ({ labelText, options, value, onChange }: SelectboxProps) => {
 	return (
 		<div>
 			{labelText && (
@@ -30,9 +34,10 @@ const Selectbox = ({ labelText, options }: SelectboxProps) => {
 				</label>
 			)}
 			<Select
-				defaultValue={options[0]}
+				value={value}
 				isClearable
 				options={options}
+				onChange={onChange}
 				styles={customStyles}
 			/>
 		</div>
