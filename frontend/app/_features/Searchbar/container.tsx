@@ -87,6 +87,14 @@ export const SearchbarContainer = () => {
 		setSelectedDetailClass(null);
 	};
 
+	const [checkInDate, setCheckInDate] = useState("");
+	const [checkOutDate, setCheckOutDate] = useState("");
+
+	const [selectedPeople, setSelectedPeople] = useState<{
+		value: string;
+		label: string;
+	} | null>(null);
+
 	return (
 		<SearchbarView
 			selectedMiddleClass={selectedMiddleClass}
@@ -97,6 +105,12 @@ export const SearchbarContainer = () => {
 			onDetailClassChange={setSelectedDetailClass}
 			smallClassOptions={smallClassOptions}
 			detailClassOptions={detailClassOptions}
+			checkInDate={checkInDate}
+			checkOutDate={checkOutDate}
+			onCheckInDateChange={setCheckInDate}
+			onCheckOutDateChange={setCheckOutDate}
+			selectedPeople={selectedPeople}
+			setSelectedPeople={setSelectedPeople}
 		/>
 	);
 };

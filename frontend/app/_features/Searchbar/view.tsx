@@ -30,6 +30,16 @@ type SearchbarViewProps = {
 	smallClassOptions: any;
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	detailClassOptions: any;
+	checkInDate: string;
+	checkOutDate: string;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	onCheckInDateChange: any;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	onCheckOutDateChange: any;
+	selectedPeople: { value: string; label: string } | null;
+	setSelectedPeople: (
+		newValue: { value: string; label: string } | null,
+	) => void;
 };
 
 /**
@@ -46,22 +56,25 @@ export const SearchbarView = ({
 	onDetailClassChange,
 	smallClassOptions,
 	detailClassOptions,
+	checkInDate,
+	checkOutDate,
+	onCheckInDateChange,
+	onCheckOutDateChange,
+	selectedPeople,
+	setSelectedPeople,
 }: SearchbarViewProps) => {
-	const [checkInDate, setCheckInDate] = useState("");
-	const [checkOutDate, setCheckOutDate] = useState("");
-
 	return (
 		<div className="container mx-auto p-4 space-y-4 bg-white shadow-lg rounded-lg">
 			<div className="flex items-end space-x-3 z-10">
 				<DateSelectbox
 					labelText="チェックイン"
 					value={checkInDate}
-					onChange={(newValue) => setCheckInDate(newValue)}
+					onChange={(newValue) => onCheckInDateChange(newValue)}
 				/>
 				<DateSelectbox
 					labelText="チェックアウト"
 					value={checkOutDate}
-					onChange={(newValue) => setCheckOutDate(newValue)}
+					onChange={(newValue) => onCheckOutDateChange(newValue)}
 				/>
 			</div>
 			<div className="container flex items-end space-x-3 z-50">
@@ -91,12 +104,8 @@ export const SearchbarView = ({
 				<Selectbox
 					labelText="人数"
 					options={generatePeopleOptions(10)}
-					value={null}
-					onChange={(
-						selectedOption: { value: string; label: string } | null,
-					): void => {
-						throw new Error("Function not implemented.");
-					}}
+					value={selectedPeople}
+					onChange={setSelectedPeople}
 				/>
 				<Button text="検索" btnColor="btn-neutral" />
 			</div>
