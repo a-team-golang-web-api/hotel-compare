@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect } from "react";
+import { getSmallClass } from "../../../services/getSmallClass";
 import HotelListView from "./view";
 
 export const HotelListContainer = () => {
@@ -28,6 +32,8 @@ export const HotelListContainer = () => {
 			chargeFlag: 1,
 		},
 	];
+
+	console.log("fda");
 
 	return <HotelListView hotels={mockHotels} />;
 };
