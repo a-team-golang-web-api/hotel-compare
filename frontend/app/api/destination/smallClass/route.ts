@@ -5,7 +5,6 @@ export async function GET(request: NextRequest) {
 	const middleClassName = searchParams.get("middleClassName");
 
 	if (!middleClassName) {
-		console.log(middleClassName);
 		return NextResponse.json(
 			{ error: "middleClassName is required" },
 			{ status: 400 },

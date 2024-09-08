@@ -5,7 +5,6 @@ export async function GET(request: NextRequest) {
 	const smallClassName = searchParams.get("smallClassName");
 
 	if (!smallClassName) {
-		console.log(smallClassName);
 		return NextResponse.json(
 			{ error: "smallClassName is required" },
 			{ status: 400 },

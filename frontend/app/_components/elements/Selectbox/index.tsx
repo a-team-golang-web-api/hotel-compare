@@ -30,7 +30,11 @@ const customStyles = {
 
 interface SelectboxProps {
 	labelText?: string;
-	options: Array<{ value: string; label: string }>;
+	options: Array<{
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		value: any;
+		label: string;
+	}>;
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	value: any;
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>

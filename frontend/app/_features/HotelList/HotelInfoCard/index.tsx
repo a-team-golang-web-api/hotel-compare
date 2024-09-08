@@ -23,7 +23,7 @@ export const HotelInfoCard = ({
 	hotelInformationUrl,
 	roomName,
 	planName,
-	charge,
+	rakutenCharge,
 	total,
 	reserveUrl,
 	chargeFlag,
@@ -59,7 +59,7 @@ export const HotelInfoCard = ({
 				<p>{roomName}</p>
 				<p>{planName}</p>
 				<p>
-					{chargeText}: ¥{charge.toLocaleString()}
+					{chargeText}: ¥{rakutenCharge.toLocaleString()}
 				</p>
 				<p>合計: ¥{total.toLocaleString()}</p>
 				<div className="card-actions justify-end">

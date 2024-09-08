@@ -16,7 +16,7 @@ interface HotelListProps {
 const HotelListView = ({ hotels }: HotelListProps): JSX.Element => {
 	return (
 		<div className="space-y-4 w-full max-w-4xl mx-auto ">
-			{hotels.map((hotel) => (
+			{hotels?.map((hotel) => (
 				<div key={hotel.hotelName} className="w-full">
 					<HotelInfoCard
 						hotelName={hotel.hotelName}
@@ -25,7 +25,7 @@ const HotelListView = ({ hotels }: HotelListProps): JSX.Element => {
 						roomName={hotel.roomName}
 						planName={hotel.planName}
 						reserveUrl={hotel.reserveUrl}
-						charge={hotel.charge}
+						rakutenCharge={hotel.rakutenCharge}
 						total={hotel.total}
 						chargeFlag={hotel.chargeFlag}
 					/>
