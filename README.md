@@ -2,6 +2,12 @@
 
 条件を選択してホテル情報を安い順に表示するアプリケーション
 
+## デモ
+
+![sampleDemo](https://github.com/user-attachments/assets/9f453a9b-e1e3-425d-8494-cdbf3de7daa9)
+
+
+
 ## 環境構築
 
 ### frontend
