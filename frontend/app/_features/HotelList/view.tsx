@@ -25,7 +25,7 @@ const HotelListView = ({ hotels }: HotelListProps): JSX.Element => {
 						roomName={hotel.roomName}
 						planName={hotel.planName}
 						reserveUrl={hotel.reserveUrl}
-						charge={hotel.charge}
+						rakutenCharge={hotel.rakutenCharge}
 						total={hotel.total}
 						chargeFlag={hotel.chargeFlag}
 					/>

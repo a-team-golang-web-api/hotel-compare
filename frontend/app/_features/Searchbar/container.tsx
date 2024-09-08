@@ -1,9 +1,11 @@
 "use client";
+import { setHotels } from "@/redux/reducers/hotelSlice";
 import { getDetailClass } from "@/services/getDetailClass";
 import { getHotelsInfo } from "@/services/getHotelsInfo";
 import { getSmallClass } from "@/services/getSmallClass";
 import dayjs, { type Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { SearchbarView } from "./view";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -110,6 +112,7 @@ export const SearchbarContainer = () => {
 		label: string;
 	} | null>(null);
 
+	const dispath = useDispatch();
 	// ホテル情報取得API
 	const handleSearchClick = async () => {
 		if (
@@ -128,7 +131,7 @@ export const SearchbarContainer = () => {
 					checkInDate: formatToDateString(checkInDate),
 					checkOutDate: formatToDateString(checkOutDate),
 				});
-				console.log(data);
+				dispath(setHotels(data));
 			} catch (error) {
 				console.error(error);
 			}

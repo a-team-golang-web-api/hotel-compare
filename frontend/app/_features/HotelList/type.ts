@@ -5,7 +5,7 @@ export interface HotelInfo {
 	roomName: string;
 	planName: string;
 	reserveUrl: string;
-	charge: number;
+	rakutenCharge: number;
 	total: number;
 	chargeFlag: number;
 }
