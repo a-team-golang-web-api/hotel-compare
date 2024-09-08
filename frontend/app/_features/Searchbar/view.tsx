@@ -37,7 +37,19 @@ export const SearchbarView = ({
 
 	return (
 		<div className="container mx-auto p-4 space-y-4 bg-white shadow-lg rounded-lg">
-			<div className="container flex items-end space-x-3">
+			<div className="flex items-end space-x-3 z-10">
+				<DateSelectbox
+					labelText="チェックイン"
+					value={checkInDate}
+					onChange={(newValue) => setCheckInDate(newValue)}
+				/>
+				<DateSelectbox
+					labelText="チェックアウト"
+					value={checkOutDate}
+					onChange={(newValue) => setCheckOutDate(newValue)}
+				/>
+			</div>
+			<div className="container flex items-end space-x-3 z-50">
 				<Selectbox
 					labelText="目的地"
 					options={middleClassOption}
@@ -53,18 +65,6 @@ export const SearchbarView = ({
 				)}
 			</div>
 
-			<div className="flex items-end space-x-3">
-				<DateSelectbox
-					labelText="チェックイン"
-					value={checkInDate}
-					onChange={(newValue) => setCheckInDate(newValue)}
-				/>
-				<DateSelectbox
-					labelText="チェックアウト"
-					value={checkOutDate}
-					onChange={(newValue) => setCheckOutDate(newValue)}
-				/>
-			</div>
 			<div className="container flex justify-between items-end space-x-3">
 				<Selectbox
 					labelText="人数"
