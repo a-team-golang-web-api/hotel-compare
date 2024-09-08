@@ -33,7 +33,5 @@ export const HotelListContainer = () => {
 		},
 	];
 
-	console.log("fda");
-
 	return <HotelListView hotels={mockHotels} />;
 };

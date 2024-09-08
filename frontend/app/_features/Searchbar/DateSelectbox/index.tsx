@@ -17,10 +17,15 @@ interface DateSelectboxProps {
  * @param {any} props.value - 選択された日付の値
  * @param {function} props.onChange - 日付が変更されたときに呼び出されるコールバック関数
  */
-const DateSelectbox = ({ labelText }: DateSelectboxProps) => {
+const DateSelectbox = ({ labelText, value, onChange }: DateSelectboxProps) => {
 	return (
 		<LocalizationProvider dateAdapter={AdapterDayjs}>
-			<DatePicker label={labelText} format="YYYY/MM/DD" />
+			<DatePicker
+				label={labelText}
+				value={value}
+				onChange={onChange} // 選択された日付が変更されたときのコールバック
+				format="YYYY/MM/DD" // 日付フォーマット
+			/>
 		</LocalizationProvider>
 	);
 };
