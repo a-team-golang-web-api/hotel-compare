@@ -1,5 +1,5 @@
 "use client";
-import { setHotels } from "@/redux/reducers/hotelSlice";
+import { clearHotels, setHotels } from "@/redux/reducers/hotelSlice";
 import { getDetailClass } from "@/services/getDetailClass";
 import { getHotelsInfo } from "@/services/getHotelsInfo";
 import { getSmallClass } from "@/services/getSmallClass";
@@ -23,7 +23,7 @@ const formatToDateString = (date: Dayjs) => {
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const convertToDetailClassOptions = (data: any[]) => {
 	return data.map((item) => ({
-		value: item.detailClassName,
+		value: { name: item.detailClassName, code: item.detailClassCode },
 		label: item.detailClassName,
 	}));
 };
@@ -80,8 +80,12 @@ export const SearchbarContainer = () => {
 			if (selectedSmallClass?.value) {
 				try {
 					const data = await getDetailClass(selectedSmallClass.value.name);
-					const smallClassOptions = convertToDetailClassOptions(data);
-					setDetailClassOptions(smallClassOptions);
+					if (data != null) {
+						const detailClassOptions = convertToDetailClassOptions(data);
+						setDetailClassOptions(detailClassOptions);
+					} else {
+						setDetailClassOptions(null);
+					}
 				} catch (error) {
 					console.error(error);
 				}
@@ -115,6 +119,7 @@ export const SearchbarContainer = () => {
 	const dispath = useDispatch();
 	// ホテル情報取得API
 	const handleSearchClick = async () => {
+		dispath(clearHotels());
 		if (
 			selectedMiddleClass?.value &&
 			selectedSmallClass &&
